@@ -1,0 +1,10 @@
+C:/Users/okr65/Desktop/flutter_application_1/build/windows/runner/Debug/data/icudtl.dat
+C:/Users/okr65/Desktop/flutter_application_1/build/windows/runner/Debug/flutter_windows.dll
+C:/Users/okr65/Desktop/flutter_application_1/build/windows/runner/Debug/data/flutter_assets/AssetManifest.bin
+C:/Users/okr65/Desktop/flutter_application_1/build/windows/runner/Debug/data/flutter_assets/AssetManifest.json
+C:/Users/okr65/Desktop/flutter_application_1/build/windows/runner/Debug/data/flutter_assets/FontManifest.json
+C:/Users/okr65/Desktop/flutter_application_1/build/windows/runner/Debug/data/flutter_assets/fonts/MaterialIcons-Regular.otf
+C:/Users/okr65/Desktop/flutter_application_1/build/windows/runner/Debug/data/flutter_assets/kernel_blob.bin
+C:/Users/okr65/Desktop/flutter_application_1/build/windows/runner/Debug/data/flutter_assets/NOTICES
+C:/Users/okr65/Desktop/flutter_application_1/build/windows/runner/Debug/data/flutter_assets/NOTICES.Z
+C:/Users/okr65/Desktop/flutter_application_1/build/windows/runner/Debug/data/flutter_assets/shaders/ink_sparkle.frag
