@@ -44,8 +44,10 @@ class MyHomePage extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             BigCard(pair: pair),
+            SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
                 appState.getNext();
@@ -79,7 +81,11 @@ class BigCard extends StatelessWidget {
       elevation: 5,
       child: Padding(
         padding: const EdgeInsets.all(20.0),
-        child: Text(pair.asPascalCase, style: style),
+        child: Text(
+          pair.asPascalCase,
+          style: style,
+          semanticsLabel: "${pair.first} ${pair.second}",
+        ),
       ),
     );
   }
