@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'package:english_words/english_words.dart';
 
@@ -44,9 +45,127 @@ class MyAppState extends ChangeNotifier {
     }
     notifyListeners();
   }
+
+  void removeFavorite(value) {
+    favorites.remove(value);
+    notifyListeners();
+  }
 }
 
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  var selectedIndex = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    Widget page;
+    switch (selectedIndex) {
+      case 0:
+        page = GeneratorPage();
+        break;
+      case 1:
+        page = FavoritesPage();
+        break;
+      default:
+        throw UnimplementedError('no widget for $selectedIndex');
+    }
+
+    return LayoutBuilder(builder: (context, constraints) {
+      return Scaffold(
+        body: Row(
+          children: [
+            SafeArea(
+              child: NavigationRail(
+                minExtendedWidth: 180,
+                extended: constraints.maxWidth >= 600,
+                destinations: [
+                  NavigationRailDestination(
+                    icon: Icon(Icons.home),
+                    label: Text("Home"),
+                  ),
+                  NavigationRailDestination(
+                    icon: Icon(Icons.favorite),
+                    label: Text("Favorities"),
+                  ),
+                ],
+                selectedIndex: selectedIndex,
+                onDestinationSelected: (value) {
+                  setState(() {
+                    selectedIndex = value;
+                  });
+                },
+              ),
+            ),
+            Expanded(
+              child: Container(
+                color: Theme.of(context).colorScheme.primaryContainer,
+                child: page,
+              ),
+            ),
+          ],
+        ),
+      );
+    });
+  }
+}
+
+class FavoritesPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    var appState = context.watch<MyAppState>();
+    var favs = appState.favorites;
+    final theme = Theme.of(context);
+    final style = theme.textTheme.titleLarge!.copyWith(
+      color: theme.colorScheme.onPrimary,
+    );
+    if (favs.isEmpty) {
+      return Center(
+        child: Text(
+          'No favorites yet',
+          style: style.copyWith(color: Colors.black),
+        ),
+      );
+    }
+
+    return ListView(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(20),
+          child: Text('You have '
+              '${appState.favorites.length} favorites:'),
+        ),
+        for (var fav in favs)
+          ListTile(
+            // isThreeLine: true,
+            leading: Icon(
+              Icons.favorite,
+              size: 15,
+            ),
+            title: Text(
+              fav.asPascalCase,
+              style: style.copyWith(color: Colors.black, fontSize: 18),
+            ),
+            trailing: IconButton(
+              hoverColor: Colors.green.withOpacity(0.08),
+              onPressed: () {
+                appState.removeFavorite(fav);
+              },
+              icon: Icon(
+                Icons.delete,
+                size: 20,
+              ),
+            ),
+          ),
+      ],
+    );
+  }
+}
+
+class GeneratorPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
@@ -59,34 +178,35 @@ class MyHomePage extends StatelessWidget {
       icon = Icons.favorite_border;
     }
 
-    return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            BigCard(pair: pair),
-            SizedBox(height: 10),
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                ElevatedButton.icon(
-                  onPressed: () {
-                    appState.toggleFavorite();
-                  },
-                  icon: Icon(icon),
-                  label: Text('Like'),
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          BigCard(pair: pair),
+          SizedBox(height: 10),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              ElevatedButton.icon(
+                onPressed: () {
+                  appState.toggleFavorite();
+                },
+                icon: Icon(
+                  icon,
+                  color: Colors.red,
                 ),
-                SizedBox(width: 10),
-                ElevatedButton(
-                  onPressed: () {
-                    appState.getNext();
-                  },
-                  child: Text('Next'),
-                ),
-              ],
-            ),
-          ],
-        ),
+                label: Text('Like'),
+              ),
+              SizedBox(width: 10),
+              ElevatedButton(
+                onPressed: () {
+                  appState.getNext();
+                },
+                child: Text('Next'),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
