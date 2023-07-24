@@ -1,3 +1,3 @@
-# flutter_application_1
+Application made with tutorial 
 
-A new Flutter project.
+<img src="screenshoots/Screenshot_1.png" width="50%"/><img src="screenshoots/Screenshot_2.png" width="50%"/>
