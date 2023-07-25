@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:english_words/english_words.dart';
@@ -28,9 +30,13 @@ class MyApp extends StatelessWidget {
 
 class MyAppState extends ChangeNotifier {
   var current = WordPair.random();
+  Random random = Random();
+  Color bigCardColor = Colors.green[900]!;
 
   void getNext() {
     current = WordPair.random();
+    bigCardColor =
+        Colors.primaries[Random().nextInt(Colors.primaries.length)][900]!;
     notifyListeners();
   }
 
@@ -168,6 +174,7 @@ class GeneratorPage extends StatelessWidget {
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
     var pair = appState.current;
+    Color color = appState.bigCardColor;
 
     IconData icon;
     if (appState.favorites.contains(pair)) {
@@ -180,7 +187,7 @@ class GeneratorPage extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          BigCard(pair: pair),
+          BigCard(pair: pair, color: color),
           SizedBox(height: 10),
           Row(
             mainAxisSize: MainAxisSize.min,
@@ -214,9 +221,11 @@ class BigCard extends StatelessWidget {
   const BigCard({
     super.key,
     required this.pair,
+    required this.color,
   });
 
   final WordPair pair;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
@@ -226,7 +235,7 @@ class BigCard extends StatelessWidget {
     );
 
     return Card(
-      color: theme.colorScheme.primary,
+      color: color,
       elevation: 5,
       child: Padding(
         padding: const EdgeInsets.all(20.0),
