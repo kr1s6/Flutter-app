@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'package:english_words/english_words.dart';
 
@@ -140,7 +139,6 @@ class FavoritesPage extends StatelessWidget {
         ),
         for (var fav in favs)
           ListTile(
-            // isThreeLine: true,
             leading: Icon(
               Icons.favorite,
               size: 15,
@@ -232,10 +230,14 @@ class BigCard extends StatelessWidget {
       elevation: 5,
       child: Padding(
         padding: const EdgeInsets.all(20.0),
-        child: Text(
-          pair.asPascalCase,
-          style: style,
-          semanticsLabel: "${pair.first} ${pair.second}",
+        child: AnimatedSize(
+          duration: Duration(milliseconds: 200),
+          curve: Curves.easeIn,
+          child: Text(
+            pair.asPascalCase,
+            style: style,
+            semanticsLabel: "${pair.first} ${pair.second}",
+          ),
         ),
       ),
     );
